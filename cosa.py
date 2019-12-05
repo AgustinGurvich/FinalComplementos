@@ -3,11 +3,12 @@ import argparse
 import matplotlib.pyplot as plt
 import numpy as np
 from math import sqrt
+from time import sleep
 
 
 class LayoutGraph:
 
-    def __init__(self, grafo, iters, refresh, c1, c2, verbose=False, temp=100, ancho=100, alto=100, grav=0.1):
+    def __init__(self, grafo, iters, refresh, c1, c2, verbose=False, temp=100, ctemp=0.95, ancho=100, alto=100, grav=0.1):
         '''
         Parametros de layout:
         iters: cantidad de iteraciones a realizar
@@ -34,6 +35,7 @@ class LayoutGraph:
         self.alto = alto
         self.grav = grav
         self.temp = temp
+        self.ctemp = ctemp
 
         # Guardo opciones
         self.iters = iters
@@ -45,9 +47,23 @@ class LayoutGraph:
         Aplica el algoritmo de Fruchtermann-Reingold para obtener (y mostrar)
         un layout
         '''
+
+        if(self.verbose):
+            print("Los parametros elegidos son: ")
+            print("Iteraciones: " + str(self.iters))
+            print("Refrescos: " + str(self.refresh))
+            print("Fuerza de gravedad: " + str(self.grav))
+            print("Temperatura: " + str(self.temp))
+            print("Multiplicador de la temperatura: " + str(self.ctemp))
+            print("Constante de atraccion:" + str(self.c2))
+            print("Constante de repulsion: " + str(self.c1))
+            print("Alto inicial: " + str(self.alto))
+            print("Ancho inicial: " + str(self.ancho))
+            sleep(2)  # Permite leer las opciones
+
         ejes = plt.gca()
-        ejes.set_xlim([0,self.ancho])
-        ejes.set_ylim([0,self.alto])
+        ejes.set_xlim([0, self.ancho])
+        ejes.set_ylim([0, self.alto])
         plt.ion()
 
         N, E = self.grafo
@@ -55,11 +71,13 @@ class LayoutGraph:
             self.grafo, self.alto, self.ancho)
         for k in range(self.iters):
             if self.verbose:
-                print("Iteracion n°",k+1)
+                print("Iteracion n°", k+1)
             # Acumuladores
             accum_x = {node: 0 for node in self.grafo[0]}
             accum_y = {node: 0 for node in self.grafo[0]}
             # Atraccion
+            if(self.verbose):
+                print("Calculando Fuerza de atracción")
             for ni, nj in E:
                 dist = distancia_euclidiana(self, (ni, nj))
                 if dist < 1:
@@ -79,11 +97,12 @@ class LayoutGraph:
                 accum_x[nj] -= fx
                 accum_y[nj] -= fy
             # Repulsion
+            if(self.verbose):
+                print("Calculando Fuerza de repulsión")
             for ni in N:
                 for nj in N:
                     if ni != nj:
                         dist = distancia_euclidiana(self, (ni, nj))
-
                         if dist < 10**-5:
                             f = random.random()
                             self.posiciones[ni][0] += f
@@ -102,6 +121,8 @@ class LayoutGraph:
                         accum_x[ni] -= fx
                         accum_y[ni] -= fy
             # Gravedad
+            if(self.verbose):
+                print("Calculando Fuerza de gravedad")
             for ni in N:
                 pos0 = self.posiciones[ni]
                 dist = ((pos0[0]-self.ancho/2)**2 +
@@ -119,6 +140,8 @@ class LayoutGraph:
                               [1]-self.alto/2)/dist)
                 accum_x[ni] -= fx
                 accum_y[ni] -= fy
+            if(self.verbose):
+                print(accum_x, accum_y)
             # Posiciones
             # Hacer los limites de la ventana dinamicos
             for nodo in N:
@@ -127,15 +150,17 @@ class LayoutGraph:
                     f[0] = f[0]/sqrt(f[0]**2 + f[1]**2) * self.temp
                     f[1] = f[1]/sqrt(f[0]**2 + f[1]**2) * self.temp
                     (accum_x[nodo], accum_y[nodo]) = f
-                self.posiciones[nodo][0] = self.posiciones[nodo][0] + accum_x[nodo]
-                self.posiciones[nodo][1] = self.posiciones[nodo][1] + accum_y[nodo]
+                self.posiciones[nodo][0] = self.posiciones[nodo][0] + \
+                    accum_x[nodo]
+                self.posiciones[nodo][1] = self.posiciones[nodo][1] + \
+                    accum_y[nodo]
             # Actualizar temperatura
-            self.temp = 0.95*self.temp
+            self.temp = self.ctemp*self.temp
             # Creo listas X,Y
             ejex = [self.posiciones[i][0] for i in N]
             ejey = [self.posiciones[i][1] for i in N]
             # Grafico
-            if self.refresh != 0 and k%self.refresh==0:
+            if self.refresh != 0 and k % self.refresh == 0:
                 plt.pause(0.00001)
                 plt.clf()
                 plt.scatter(ejex, ejey)
@@ -219,7 +244,7 @@ def main():
         '--iters',
         type=int,
         help='Cantidad de iteraciones a efectuar',
-        default=50
+        default=100
     )
     # Tasa de redibujado, opcional, 2 por defecto
     parser.add_argument(
@@ -233,7 +258,15 @@ def main():
         '--temp',
         type=float,
         help='Temperatura inicial',
-        default=150.0
+        default=100.0
+    )
+
+    # Constante para disminuir temp
+    parser.add_argument(
+        '--ctemp',
+        type=float,
+        help='Constante para multiplicar Temp',
+        default=0.95
     )
 
     # Archivo del cual leer el grafo
@@ -246,29 +279,29 @@ def main():
         '--grav',
         type=float,
         help='Fuerza de gravedad',
-        default=0.5
+        default=0.002
     )
 
     parser.add_argument(
         '--alto',
         type=int,
         help='Alto del espacio de grafico',
-        default=100
+        default=1000
     )
 
     parser.add_argument(
         '--ancho',
         type=int,
         help='Ancho del espacio de grafico',
-        default=100
+        default=1000
     )
 
     args = parser.parse_args()
 
     grafo = lee_grafo_archivo(args.file_name)
 
-    catraccion = 5  # Valor de 'c' para la atraccion
-    crepulsion = 0.5  # Valor de 'c' para la repulsion
+    catraccion = 0.01  # Valor de 'c' para la atraccion
+    crepulsion = 10  # Valor de 'c' para la repulsion
 
     classG = LayoutGraph(grafo,
                          iters=args.iters,
@@ -277,6 +310,7 @@ def main():
                          c2=catraccion,
                          verbose=args.verbose,
                          temp=args.temp,
+                         ctemp=args.ctemp,
                          ancho=args.ancho,
                          alto=args.alto)
 

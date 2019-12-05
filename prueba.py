@@ -45,6 +45,17 @@ class LayoutGraph:
         Aplica el algoritmo de Fruchtermann-Reingold para obtener (y mostrar)
         un layout
         '''
+        if(self.verbose):
+            print("Los parametros elegidos son: ")
+            print("Iteraciones: " + str(self.iters))
+            print("Refrescos: " + str(self.refresh))
+            print("Fuerza de gravedad: " + str(self.grav))
+            print("Temperatura: " + str(self.temp))
+            print("Constante de atraccion:" + str(self.c2))
+            print("Constante de repulsion: " + str(self.c1))
+            print("Alto inicial: " + str(self.alto))
+            print("Ancho inicial: " + str(self.ancho))
+
         N, E = self.grafo
         self.posiciones = posiciones_aleatorias(
             self.grafo, self.alto, self.ancho)
@@ -245,7 +256,6 @@ def main():
 
     catraccion = 100  # Valor de 'c' para la atraccion
     crepulsion = 0.01  # Valor de 'c' para la repulsion
-
     classG = LayoutGraph(grafo,
                          iters=args.iters,
                          refresh=1,
