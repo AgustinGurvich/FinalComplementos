@@ -1,0 +1,96 @@
+30
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+aa
+bb
+cc
+dd
+ee
+a b
+a c
+a d
+a e
+b c
+b d
+b e
+c d
+c e
+d e
+aa bb
+aa cc
+aa dd
+aa ee
+bb cc
+bb dd
+bb ee
+cc dd
+cc ee
+dd ee
+f g
+f h
+f i
+f j
+g h
+g i
+g j
+h i
+h j
+i j
+k l
+k m
+k n
+k o
+l m
+l n
+l o
+m n
+m o
+n o
+p q
+p r
+p s
+p t
+q r
+q s
+q t
+s r
+s t
+r s
+u v
+u w
+u x
+u y
+v w
+v x
+v y
+w x
+w y
+x y
+u a
+v f
+w k
+x p
+y aa

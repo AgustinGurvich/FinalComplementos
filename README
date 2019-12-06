@@ -1,0 +1,11 @@
+El script "graficador.py" se utiliza para graficar grafos. Para ello implementa el algoritmo de Fruchterman-Reingold, basado en la simulación de fuerzas tanto de atracción como de repulsión sobre vértices que comparten aristas.
+
+Para ejecutar el script debe introducirse en la terminal el comando: "python graficador.py 'nombreDelArchivo'", donde nombreDelArchivo debe ser un archivo que contenga escrito un grafo en formato de lista.
+
+Junto con el comando pueden especificarse otros valores, tales como el ancho y el alto inicial del grafico, la cantidad de iteraciones a realizar, y demás. Una lista detallada de estas opciones puede encontrarse con el comando "python graficador.py -h".
+
+La salida del programa será un gráfico en el cual se representa el grafo indicado en el archivo parámetro.
+
+Consideraciones al ejecutar:
+*Si se deben graficar ciclos de gran tamaño, aumentar la temperatura inicial (por defecto 200)
+*Si se aumenta de manera significante la cantidad de iteraciones, aumentar el valor del multiplicador de temperatura (por defecto 0.95)
