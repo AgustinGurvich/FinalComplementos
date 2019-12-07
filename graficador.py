@@ -11,16 +11,16 @@ class LayoutGraph:
     def __init__(self, grafo, iters, refresh, c1, c2, verbose=False, temp=100, ctemp=0.95, ancho=100, alto=100, grav=0.1):
         '''
         Parametros de layout:
-        iters: cantidad de iteraciones a realizar
-        refresh: Numero de iteraciones entre actualizaciones de pantalla.
-        0 -> se grafica solo al final.
-        c1: constante usada para calcular la repulsion entre nodos
-        c2: constante usada para calcular la atraccion de aristas
-        verbose:
-        temp:
-        ancho:
-        alto:
-        grav:
+        iters: cantidad de iteraciones a realizar.
+        refresh: Numero de iteraciones entre actualizaciones de pantalla. 0 -> se grafica solo al final.
+        c1: constante usada para calcular la repulsion entre nodos.
+        c2: constante usada para calcular la atraccion de aristas.        
+	verbose: opcion para activar los detalles de la ejecucion.
+	ctemp: constante usada para reducir la temperatura por cada iteracion.
+        temp: valor para manejar la convergencia del grafo.
+        ancho: ancho inicial del grafico.
+        alto: alto inicial del grafico.
+        grav: constante de gravedad.
         '''
         # Guardo el grafo
         self.grafo = grafo
@@ -58,7 +58,7 @@ class LayoutGraph:
             print("Constante de repulsion: " + str(self.c1))
             print("Alto inicial: " + str(self.alto))
             print("Ancho inicial: " + str(self.ancho))
-            sleep(2)  # Permite leer las opciones
+            sleep(10)  # Permite leer las opciones
 
         ejes = plt.gca()
         # ejes.set_xlim([0, self.ancho])
