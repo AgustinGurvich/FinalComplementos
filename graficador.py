@@ -14,7 +14,7 @@ class LayoutGraph:
         iters: cantidad de iteraciones a realizar.
         refresh: Numero de iteraciones entre actualizaciones de pantalla. 0 -> se grafica solo al final.
         c1: constante usada para calcular la repulsion entre nodos.
-        c2: constante usada para calcular la atraccion de aristas.        
+        c2: constante usada para calcular la atraccion de aristas.
 	    verbose: opcion para activar los detalles de la ejecucion.
 	    ctemp: constante usada para reducir la temperatura por cada iteracion.
         temp: valor para manejar la convergencia del grafo.
@@ -58,7 +58,8 @@ class LayoutGraph:
             print("Constante de repulsion: " + str(self.c1))
             print("Alto inicial: " + str(self.alto))
             print("Ancho inicial: " + str(self.ancho))
-            sleep(10)  # Permite leer las opciones
+            print("Presione enter para continuar")
+            x = input()
 
         ejes = plt.gca()
         # ejes.set_xlim([0, self.ancho])
