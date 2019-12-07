@@ -8,15 +8,15 @@ from time import sleep
 
 class LayoutGraph:
 
-    def __init__(self, grafo, iters, refresh, c1, c2, verbose=False, temp=100, ctemp=0.95, ancho=100, alto=100, grav=0.1):
+    def __init__(self, grafo, iters, refresh, c1, c2, verbose, temp, ctemp, ancho, alto, grav):
         '''
         Parametros de layout:
         iters: cantidad de iteraciones a realizar.
         refresh: Numero de iteraciones entre actualizaciones de pantalla. 0 -> se grafica solo al final.
         c1: constante usada para calcular la repulsion entre nodos.
         c2: constante usada para calcular la atraccion de aristas.        
-	verbose: opcion para activar los detalles de la ejecucion.
-	ctemp: constante usada para reducir la temperatura por cada iteracion.
+	    verbose: opcion para activar los detalles de la ejecucion.
+	    ctemp: constante usada para reducir la temperatura por cada iteracion.
         temp: valor para manejar la convergencia del grafo.
         ancho: ancho inicial del grafico.
         alto: alto inicial del grafico.
@@ -337,15 +337,16 @@ def main():
     grafo = lee_grafo_archivo(args.file_name)
 
     classG = LayoutGraph(grafo,
-                         iters=args.iters,
-                         refresh=args.refresh,
-                         c1=args.rep,
-                         c2=args.atrac,
-                         verbose=args.verbose,
-                         temp=args.temp,
-                         ctemp=args.ctemp,
-                         ancho=args.ancho,
-                         alto=args.alto)
+                         args.iters,
+                         args.refresh,
+                         args.rep,
+                         args.atrac,
+                         args.verbose,
+                         args.temp,
+                         args.ctemp,
+                         args.ancho,
+                         args.alto,
+                         args.grav)
 
     # Ejecutamos el layout
     classG.layout()
