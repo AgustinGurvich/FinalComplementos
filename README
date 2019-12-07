@@ -4,6 +4,8 @@ Para ejecutar el script debe introducirse en la terminal el comando: "python gra
 
 Junto con el comando pueden especificarse otros valores, tales como el ancho y el alto inicial del grafico, la cantidad de iteraciones a realizar, y demás. Una lista detallada de estas opciones puede encontrarse con el comando "python graficador.py -h".
 
+Si se activa la opcion verbose, se pueden ver los parametros ingresados, junto con la informacion de los valores del algoritmo en cada iteracion
+
 La salida del programa será un gráfico en el cual se representa el grafo indicado en el archivo parámetro.
 
 Consideraciones al ejecutar:
